@@ -1,0 +1,24 @@
+{
+  "name": "backend-devalopment",
+  "version": "1.0.0",
+  "description": "BAsic app ",
+  "homepage": "https://github.com/sudais122/Backend-Devalopment#readme",
+  "bugs": {
+    "url": "https://github.com/sudais122/Backend-Devalopment/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sudais122/Backend-Devalopment.git"
+  },
+  "license": "ISC",
+  "author": "sudais",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
