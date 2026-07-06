@@ -6,7 +6,7 @@ const App = () => {
   useEffect(() => {
     async function getdata() {
       try{
-        const response = await fetch(`http://localhost:3000/jokes`);
+        const response = await fetch(`/api/jokes`);
         const Data =  await response.json();
         setJokes(Data);
         console.log(Data);
@@ -25,7 +25,7 @@ const App = () => {
         Jokes.map((Jokes)=>(
           <div key={Jokes.id}>
             <p>{Jokes.name}</p>
-            <p>{Jokes.tittle}</p>
+            <p>{Jokes.title}</p>
           </div>
         ))
       }
