@@ -17,3 +17,5 @@ class APiError extends Error{
         }
     }
 }
+
+export default APiError;
