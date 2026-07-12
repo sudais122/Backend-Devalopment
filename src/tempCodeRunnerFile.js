@@ -1,6 +1,10 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import { app } from "./app.js";
 import conncectDB from "./db/db.js";
+
+dotenv.config({
+  path: "./.env",
+});
 
 async function startserver() {
   try {
@@ -9,7 +13,7 @@ async function startserver() {
       console.log(`Server is running on PORT ${process.env.PORT}`);
     });
   } catch (error) {
-    console.log(`Database connection failed`, error);
+    console.log(`Database connection failed`);
     process.exit(1);
   }
 }

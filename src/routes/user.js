@@ -1,22 +1,24 @@
 import { Router } from "express";
 import { register, login, forgotpassword } from "../controllers/user.js";
-import { multer } from "../middlewares/multer.js";
+import {upload} from "../middlewares/multer.js";
+
 const router = Router();
 
 router.post(
   "/register",
-  multer.fields([
+  upload.fields([
     {
       name: "avatar",
-      maxcount: 1,
+      maxCount: 1,
     },
     {
-      name: "cover image",
-      maxcount: 1,
+      name: "coverImage",
+      maxCount: 1,
     },
   ]),
-  register,
+  register
 );
+
 router.get("/login", login);
 router.get("/forgot-password", forgotpassword);
 
