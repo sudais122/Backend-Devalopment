@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models/user.model.js";
-import { ApiError } from "../utils/ApiError.js";
-
+import { User } from "../Models/User.js";
+import ApiError from '../utils/ApiError.js'
 const verifyJWT = async (req, res, next) => {
   try {
     // Get token from cookie or Authorization header
@@ -37,4 +36,4 @@ const verifyJWT = async (req, res, next) => {
   }
 };
 
-export { verifyJWT };
+export default  verifyJWT ;

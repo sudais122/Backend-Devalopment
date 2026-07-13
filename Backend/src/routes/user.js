@@ -6,7 +6,7 @@ import {
   logoutUser,
 } from "../controllers/user.js";
 import { upload } from "../middlewares/multer.js";
-import { authmiddleware } from "../middlewares/auth.middleware.js";
+import authmiddleware  from "../middlewares/auth.middleware.js";
 const router = Router();
 
 router.post(

@@ -80,56 +80,61 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body || {};
 
-  // Validate required text fields
-  if ([email, password].some((field) => !field?.trim())) {
-    throw new ApiError(400, "All fields are required");
+  // Validate request body
+  if (!email || !password) {
+    throw new ApiError(400, "Email and password are required");
   }
 
-  // match the password and email in database
-  const emailmatch = await User.findOne({ email });
+  // Find user by email
+  const user = await User.findOne({ email });
 
-  //cehck if the email avalibale
-  if (!emailmatch) {
-    throw new ApiError(404, "email is invalid");
+  if (!user) {
+    throw new ApiError(404, "Invalid email");
   }
 
-  //comapre passowrd
-  const isPasswordvalid = await user.isPasswordCorrect(password);
+  // Check password
+  const isPasswordValid = await user.isPasswordCorrect(password);
 
-  if (!isPasswordvalid) {
-    throw new ApiError(401, "invalid password");
+  if (!isPasswordValid) {
+    throw new ApiError(401, "Invalid password");
   }
 
-  const logedin = await User.findById(user._id).select(
-    "-password -refreshToken",
-  );
-  //generate tokens
-  const AcessToken = user.generateAccessToken();
-  const RefreshToken = user.generateRefreshToken();
+  // Generate tokens
+  const accessToken = user.generateAccessToken();
+  const refreshToken = user.generateRefreshToken();
 
-  User.RefreshToken = RefreshToken;
-
+  // Save refresh token
+  user.refreshToken = refreshToken;
   await user.save({ validateBeforeSave: false });
+
+  // Get user without sensitive fields
+  const loggedInUser = await User.findById(user._id).select(
+    "-password -refreshToken"
+  );
 
   const options = {
     httpOnly: true,
-    secure: true,
-  };
+    secure: true
+    }
+
   return res
     .status(200)
-    .cookie("acesstoken", AcessToken, options)
-    .cookie("refreshtoken", RefreshToken, options)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
     .json(
-      new ApiResponse(200, {
-        user: logedin,
-        RefreshToken,
-        AcessToken,
-      }),
+      new ApiResponse(
+        200,
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        "Login successful"
+      )
     );
 };
-
 
 const logoutUser = async (req, res) => {
   // Remove Refresh Token from database

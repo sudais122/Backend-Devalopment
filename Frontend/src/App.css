@@ -1,0 +1,341 @@
+/* ============================================================
+   AuthForms.css — plain CSS replacing Tailwind
+   ============================================================ */
+
+:root {
+  --bg-page: #020617;        /* slate-950 */
+  --bg-card: #0f172a;        /* slate-900 */
+  --bg-input: #1e293b;       /* slate-800 */
+  --border: #334155;         /* slate-700 */
+  --border-soft: #1e293b;    /* slate-800 */
+  --text-main: #f1f5f9;      /* slate-100 */
+  --text-label: #cbd5e1;     /* slate-300 */
+  --text-muted: #94a3b8;     /* slate-400 */
+  --text-faint: #64748b;     /* slate-500 */
+  --primary: #4f46e5;        /* indigo-600 */
+  --primary-hover: #6366f1;  /* indigo-500 */
+  --primary-light: #818cf8;  /* indigo-400 */
+  --error: #f43f5e;          /* rose-500 */
+  --error-light: #fb7185;    /* rose-400 */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ---------- Page layout ---------- */
+
+.auth-page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 28rem;
+}
+
+.auth-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Tab switcher ---------- */
+
+.auth-tabs {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.auth-tab:hover {
+  color: var(--text-label);
+}
+
+.auth-tab.active {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+/* ---------- Headings ---------- */
+
+.form-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 4px;
+}
+
+.form-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 24px;
+}
+
+/* ---------- Fields ---------- */
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-label);
+  margin-bottom: 6px;
+}
+
+.field-required {
+  color: var(--error-light);
+}
+
+.field-optional {
+  color: var(--text-faint);
+  font-size: 12px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.field-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.field-input.has-icon {
+  padding-left: 36px;
+}
+
+.field-input.has-trailing {
+  padding-right: 40px;
+}
+
+.field-input::placeholder {
+  color: var(--text-faint);
+}
+
+.field-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+.field-input.input-error {
+  border-color: var(--error);
+}
+
+.field-input.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.25);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-faint);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password:hover {
+  color: var(--text-label);
+}
+
+.field-error {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--error-light);
+}
+
+.field-error.centered {
+  text-align: center;
+}
+
+/* ---------- File upload ---------- */
+
+.upload-box {
+  position: relative;
+  cursor: pointer;
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(30, 41, 59, 0.6);
+  transition: border-color 0.15s;
+}
+
+.upload-box:hover {
+  border-color: var(--primary);
+}
+
+.upload-box.upload-error {
+  border-color: var(--error);
+}
+
+.upload-box.avatar {
+  height: 96px;
+  width: 96px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.upload-box.cover {
+  height: 96px;
+  width: 100%;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-faint);
+  font-size: 12px;
+  padding: 0 8px;
+  text-align: center;
+}
+
+.upload-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.upload-preview {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.upload-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(2, 6, 23, 0.8);
+  border: none;
+  border-radius: 50%;
+  padding: 4px;
+  color: var(--text-label);
+  cursor: pointer;
+  display: flex;
+}
+
+.upload-remove:hover {
+  color: #ffffff;
+}
+
+.upload-filename {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hidden-input {
+  display: none;
+}
+
+/* ---------- Submit button ---------- */
+
+.submit-btn {
+  width: 100%;
+  margin-top: 8px;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.submit-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Switch link ---------- */
+
+.switch-text {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 16px 0 0;
+}
+
+.switch-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary-light);
+  cursor: pointer;
+}
+
+.switch-link:hover {
+  color: #a5b4fc;
+}
