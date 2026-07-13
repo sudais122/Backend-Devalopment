@@ -13,6 +13,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static("Public"));
+app.use(cookieParser());
 
 //Routes
  import useroutes from './routes/user.js';

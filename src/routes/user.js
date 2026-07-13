@@ -1,7 +1,12 @@
 import { Router } from "express";
-import { register, login, forgotpassword } from "../controllers/user.js";
-import {upload} from "../middlewares/multer.js";
-
+import {
+  register,
+  login,
+  forgotpassword,
+  logoutUser,
+} from "../controllers/user.js";
+import { upload } from "../middlewares/multer.js";
+import { authmiddleware } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 router.post(
@@ -16,10 +21,11 @@ router.post(
       maxCount: 1,
     },
   ]),
-  register
+  register,
 );
 
-router.get("/login", login);
+router.post("/login", login);
 router.get("/forgot-password", forgotpassword);
+router.post("/logout", authmiddleware, logoutUser);
 
 export default router;
