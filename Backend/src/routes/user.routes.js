@@ -2,8 +2,10 @@ import { Router } from "express";
 import {
   register,
   login,
-  forgotpassword,
+  updatepassword,
   logoutUser,
+  GetCurrentUser,
+  updateName
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import authmiddleware  from "../middlewares/auth.middleware.js";
@@ -25,7 +27,9 @@ router.post(
 );
 
 router.post("/login", login);
-router.get("/forgot-password", forgotpassword);
+router.post("/updatepasowrd", updatepassword);
 router.post("/logout", authmiddleware, logoutUser);
+router.get("/getcurrentuser",GetCurrentUser)
+router.post("/updateName",updateName)
 
 export default router;

@@ -1,9 +1,9 @@
-import APiError from "../utils/ApiError.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiRespose.js";
 import uplaodclounary from "../utils/cloudnary.js";
 import { User } from "../Models/User.model.js";
 import validator from "validator";
+import { response } from "express";
 
 const register = async (req, res) => {
   // Get text fields
@@ -162,9 +162,52 @@ const logoutUser = async (req, res) => {
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 };
-const forgotpassword = async (req, res) => {
-  res.status(200).json({
-    message: "this is forgot password",
-  });
+
+const updatepassword = async (req, res) => {
+  // get the old adn new password from the body
+  const { oldpassword, newpassword } = req.body;
+
+  // find the user from the db the user object is returened by the middleware
+  const user = await User.findById(req.user?._id, { new: true });
+
+  // check that is the old passowrd correct or not
+  user.isPasswordCorrect(oldpassword);
+
+  // if old passowrd is not corect throw apierror
+  if (!oldpassword) {
+    throw new ApiError(404, "Old password is incorrect");
+  }
+
+  //update the old password to new
+  user.password = newpassword;
+
+  // save the udpated passowrd to database
+  await user.save({ validateBeforeSave: false });
+
+  //send api response
+  res.status.json(new ApiResponse(200, "Password change sucessfully"));
 };
-export { login, register, forgotpassword, logoutUser };
+
+const updateName = async (req, res) => {
+  const { fullname } = req.body;
+
+  const udpateduser = await findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        fullname,
+      },
+    },
+    {
+      new: true,
+    },
+  ).select("-password -refreshToken");
+
+  return res.json(
+    new ApiResponse(200, req.user, "Full name udated sucessfully"),
+  );
+};
+const GetCurrentUser = async (req, res) => {
+  return res.json(new ApiResponse(200, req.user, "User fetched sucessfullt"));
+};
+export { login, register, updatepassword, logoutUser, GetCurrentUser, updateName};
