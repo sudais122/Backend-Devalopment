@@ -2,7 +2,7 @@ import APiError from "../utils/ApiError.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiRespose.js";
 import uplaodclounary from "../utils/cloudnary.js";
-import { User } from "../Models/User.js";
+import { User } from "../Models/User.model.js";
 import validator from "validator";
 
 const register = async (req, res) => {
@@ -111,13 +111,13 @@ const login = async (req, res) => {
 
   // Get user without sensitive fields
   const loggedInUser = await User.findById(user._id).select(
-    "-password -refreshToken"
+    "-password -refreshToken",
   );
 
   const options = {
     httpOnly: true,
-    secure: true
-    }
+    secure: true,
+  };
 
   return res
     .status(200)
@@ -131,8 +131,8 @@ const login = async (req, res) => {
           accessToken,
           refreshToken,
         },
-        "Login successful"
-      )
+        "Login successful",
+      ),
     );
 };
 
@@ -147,7 +147,7 @@ const logoutUser = async (req, res) => {
     },
     {
       new: true,
-    }
+    },
   );
 
   const options = {
@@ -160,9 +160,7 @@ const logoutUser = async (req, res) => {
     .status(200)
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
-    .json(
-      new ApiResponse(200, {}, "User logged out successfully")
-    );
+    .json(new ApiResponse(200, {}, "User logged out successfully"));
 };
 const forgotpassword = async (req, res) => {
   res.status(200).json({

@@ -4,8 +4,8 @@ import {
   login,
   forgotpassword,
   logoutUser,
-} from "../controllers/user.js";
-import { upload } from "../middlewares/multer.js";
+} from "../controllers/user.controller.js";
+import { upload } from "../middlewares/multer.middleware.js";
 import authmiddleware  from "../middlewares/auth.middleware.js";
 const router = Router();
 

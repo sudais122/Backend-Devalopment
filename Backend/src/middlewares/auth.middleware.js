@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { User } from "../Models/User.js";
-import ApiError from '../utils/ApiError.js'
+import { User } from "../Models/User.model.js";
+import ApiError from "../utils/ApiError.js";
 const verifyJWT = async (req, res, next) => {
   try {
     // Get token from cookie or Authorization header
@@ -13,14 +13,11 @@ const verifyJWT = async (req, res, next) => {
     }
 
     // Verify Access Token
-    const decodedToken = jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     // Find user in database
     const user = await User.findById(decodedToken._id).select(
-      "-password -refreshToken"
+      "-password -refreshToken",
     );
 
     if (!user) {
@@ -36,4 +33,4 @@ const verifyJWT = async (req, res, next) => {
   }
 };
 
-export default  verifyJWT ;
+export default verifyJWT;
