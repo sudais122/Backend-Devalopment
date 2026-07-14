@@ -32,8 +32,8 @@ router.post("/login", login);
 router.post("/updatepasowrd", updatepassword);
 router.post("/logout", authmiddleware, logoutUser);
 router.get("/getcurrentuser",GetCurrentUser)
-router.post("/updateName",updateName)
-router.post("/UpdateAvatar",UpdateAvatar)
-router.post("/UpdateCover",UpdateCover);
+router.patch("/update-name", updateName);
+router.patch("/update-avatar", UpdateAvatar);
+router.patch("/update-cover-image", UpdateCover);
 
 export default router;
