@@ -5,6 +5,7 @@ import { User } from "../Models/User.model.js";
 import validator from "validator";
 import { response } from "express";
 
+//Register Controller
 const register = async (req, res) => {
   // Get text fields
   const { username, email, fullname, password } = req.body;
@@ -79,6 +80,7 @@ const register = async (req, res) => {
     .json(new ApiResponse(201, user, "User registered successfully"));
 };
 
+//Login Controller
 const login = async (req, res) => {
   const { email, password } = req.body || {};
 
@@ -136,6 +138,7 @@ const login = async (req, res) => {
     );
 };
 
+//Logout Controller
 const logoutUser = async (req, res) => {
   // Remove Refresh Token from database
   await User.findByIdAndUpdate(
@@ -163,6 +166,7 @@ const logoutUser = async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 };
 
+//update passowrd
 const updatepassword = async (req, res) => {
   // get the old adn new password from the body
   const { oldpassword, newpassword } = req.body;
@@ -188,26 +192,98 @@ const updatepassword = async (req, res) => {
   res.status.json(new ApiResponse(200, "Password change sucessfully"));
 };
 
+//update passowrd
 const updateName = async (req, res) => {
+  // get full name from the body
   const { fullname } = req.body;
 
+  //update the name by database query "findByIdAndUpdate"
   const udpateduser = await findByIdAndUpdate(
+    // find user by id
     req.user?._id,
     {
+      //update the fullname
       $set: {
         fullname,
+      },
+    },
+    //return teh update user
+    {
+      new: true,
+    },
+    // remove the passowrd and refreshtokena nd retuen us the user
+  ).select("-password -refreshToken");
+
+  return res.json(
+    new ApiResponse(200, udpateduser, "Full name udated sucessfully"),
+  );
+};
+
+// get current user
+const GetCurrentUser = async (req, res) => {
+  return res.json(new ApiResponse(200, req.user, "User fetched sucessfullt"));
+};
+
+//Upadte the Avatar
+const UpdateAvatar = async (req, res) => {
+  const avatarLocalPath = req.file?.path;
+
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "Local path not found");
+  }
+
+  await uplaodclounary(avatarLocalPath);
+
+  await User.findByIdAndUpdate(
+    req.file?._id,
+    {
+      $set: {
+        avatar: avatar.url,
       },
     },
     {
       new: true,
     },
-  ).select("-password -refreshToken");
+  ).select("-passowrd -refreshToken");
 
-  return res.json(
-    new ApiResponse(200, req.user, "Full name udated sucessfully"),
-  );
+    return res
+  .status(200)
+  .json(new ApiResponse(200,"Avatar updated sucessfully"))
 };
-const GetCurrentUser = async (req, res) => {
-  return res.json(new ApiResponse(200, req.user, "User fetched sucessfullt"));
+
+// update cover image
+const UpdateCover = async (req, res) => {
+  const coverImageLocalPath = req.file?.path;
+
+  if (!coverImageLocalPath) {
+    throw new ApiError(400, "Local path not found of cover image");
+  }
+
+  await uplaodclounary(coverImageLocalPath);
+
+  await User.findByIdAndUpdate(
+    req.file?._id,
+    {
+      $set: {
+        coverImage: coverImage.url,
+      },
+    },
+    {
+      new: true,
+    },
+  ).select("-passowrd -refreshToken");
+
+  return res
+  .status(200)
+  .json(new ApiResponse(200,"Cover image updated sucessfully"))
 };
-export { login, register, updatepassword, logoutUser, GetCurrentUser, updateName};
+export {
+  login,
+  register,
+  updatepassword,
+  logoutUser,
+  GetCurrentUser,
+  updateName,
+  UpdateAvatar,
+  UpdateCover
+};

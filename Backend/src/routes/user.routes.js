@@ -5,7 +5,9 @@ import {
   updatepassword,
   logoutUser,
   GetCurrentUser,
-  updateName
+  updateName,
+  UpdateAvatar,
+  UpdateCover
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import authmiddleware  from "../middlewares/auth.middleware.js";
@@ -31,5 +33,7 @@ router.post("/updatepasowrd", updatepassword);
 router.post("/logout", authmiddleware, logoutUser);
 router.get("/getcurrentuser",GetCurrentUser)
 router.post("/updateName",updateName)
+router.post("/UpdateAvatar",UpdateAvatar)
+router.post("/UpdateCover",UpdateCover);
 
 export default router;
